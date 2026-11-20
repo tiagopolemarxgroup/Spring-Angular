@@ -2,7 +2,7 @@ package com.api.backend.repuesto;
 
 import java.math.BigDecimal;
 
-public record Repuesto(Long id,
+public record Respuesto(Long id,
                        String codigo,
                        String nome,
                        String marca,
