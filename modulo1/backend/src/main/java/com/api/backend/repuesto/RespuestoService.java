@@ -21,7 +21,7 @@ public class RespuestoService {
 
     public Optional<Respuesto> getRespuestoById(Long id) {
         return respuestos.stream()
-                .filter(repuesto -> repuesto.id().equals(id))
+                .filter(respuesto -> respuesto.id().equals(id))
                 .findFirst();
     }
 }

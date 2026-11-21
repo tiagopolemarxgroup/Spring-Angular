@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -19,10 +20,32 @@ class RespuestoControllerTest {
     @Test
     void listaLosRepuestos() throws Exception {
         mockMvc.perform(get("/api/repuestos"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3));
     }
 
     @Test
-    void getRepuestoById() {
+    void getRepuestoById() throws Exception {
+        mockMvc.perform(get("/api/repuestos/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.codigo").value("ABC123"))
+                        .andExpect(jsonPath("$.nombre").value("Motor"));
+
     }
+
+    @Test
+    void getSegundoRepuestoById() throws Exception {
+        mockMvc.perform(get("/api/repuestos/2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(2))
+                .andExpect(jsonPath("$.codigo").value("XYZ456"));
+    }
+
+    @Test
+    void get404CuandoElRespuestoNoExiste() throws Exception {
+        mockMvc.perform(get("/api/repuestos/999"))
+                .andExpect(status().isNotFound());
+    }
+
 }
